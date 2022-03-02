@@ -1,0 +1,18 @@
+// vsCode의 내부의 기능을 이용하기 위한 json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "./*"
+      ],
+      "@/*": [
+        "./src/*"
+      ],
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
