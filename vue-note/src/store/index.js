@@ -7,6 +7,7 @@ export default new Vuex.Store({
 	// state: 여러 컴포넌트간에 공유되는 데이터
 	state: {
 		username: '',
+		token: '',
 	},
 	// getters: state 값이 변경됐을 때 상태를 계산
 	getters: {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
 		},
 		clearUsername(state) {
 			state.username = '';
+		},
+		setToken(state, token) {
+			state.token = token;
 		},
 	},
 });
