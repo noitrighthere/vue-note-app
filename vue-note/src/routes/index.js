@@ -1,10 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '../store';
 
 // 초기화 위해서 필요한 코드
 Vue.use(VueRouter);
 
-export default new VueRouter({
+const router = new VueRouter({
 	mode: 'history',
 	routes: [
 		{
@@ -22,14 +23,18 @@ export default new VueRouter({
 		{
 			path: '/main',
 			component: () => import('@/views/MainPage.vue'),
+			// meta -> 화면으로 이동하려면 인증이 필요함
+			meta: { auth: true },
 		},
 		{
 			path: '/add',
 			component: () => import('@/views/PostAddPage.vue'),
+			meta: { auth: true },
 		},
 		{
 			path: '/post/:id',
 			component: () => import('@/views/PostEditPage.vue'),
+			meta: { auth: true },
 		},
 		{
 			path: '*',
@@ -37,3 +42,15 @@ export default new VueRouter({
 		},
 	],
 });
+
+router.beforeEach((to, from, next) => {
+	// 인증이 필요한 페이지인데 로그인이 되지 않았으면 다시 로그인 페이지로 보냄
+	if (to.meta.auth && !store.getters.isLogin) {
+		console.log('인증이 필요합니다.');
+		next('/login');
+		return;
+	}
+	next(); // next를 호출해야지만 다음화면으로 넘어갈 수 있음
+});
+
+export default router;
